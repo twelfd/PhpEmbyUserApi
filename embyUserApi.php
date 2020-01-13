@@ -93,6 +93,12 @@ Class embyapi
                 CURLOPT_POSTFIELDS => $postdata,
             ));
         }
+        if (isset($customCurlRequest)){
+            curl_setopt_array($ch, array(
+                CURLOPT_POST => true,
+                CURLOPT_CUSTOMREQUEST => $customCurlRequest,
+            ));
+        }
         $response = curl_exec($ch);
         curl_close($ch);
         return $response;
@@ -160,7 +166,7 @@ Class embyapi
         if (!isset($policyDto)) {
             $policyDto = json_encode($this->policyDto);
         }
-        return $this->curlExecute($url, $policyDto);;
+        return $this->curlExecute($url, $policyDto);
     }
 
     public function updateConfiguration($userId, $configDto = null)
@@ -175,15 +181,8 @@ Class embyapi
     public function deleteUser($userid)
     {
         $url = "http://$this->embyIP:$this->embyPort/emby/Users/$userid?api_key=$this->embyApiKey";
-        $postdata = array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $this->headers,
-            CURLOPT_HEADER => 0,
-            CURLOPT_POST => true,
-            CURLOPT_CUSTOMREQUEST => "DELETE",
-        );
-        return $this->curlExecute($url, $postdata);
+        $customCurlRequest = "DELETE";
+        return $this->curlExecute($url, null, $customCurlRequest);
     }
 
     public function getUserList()
