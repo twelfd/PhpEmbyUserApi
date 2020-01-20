@@ -78,7 +78,7 @@ Class embyapi
         $this->headers = $headers;
     }
 
-    private function curlExecute($url, $postdata = null)
+    private function curlExecute($url, $postdata = null, $customCurlRequest = null)
     {
         $ch = curl_init();
         curl_setopt_array($ch, array(
