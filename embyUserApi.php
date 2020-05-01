@@ -181,8 +181,11 @@ Class embyapi
     public function deleteUser($userid)
     {
         $url = "http://$this->embyIP:$this->embyPort/emby/Users/$userid?api_key=$this->embyApiKey";
+		$postdata = array(
+            "Id" => $userid,
+        );
         $customCurlRequest = "DELETE";
-        return $this->curlExecute($url, null, $customCurlRequest);
+        return $this->curlExecute($url, json_encode($postdata), $customCurlRequest);
     }
 
     public function getUserList()
